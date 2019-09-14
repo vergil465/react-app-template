@@ -1,5 +1,7 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const { DefinePlugin } = require('webpack');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 
 const htmlPlugin = new HtmlWebPackPlugin({
@@ -16,6 +18,25 @@ const definePlugin = new DefinePlugin({
     NODE_ENV: JSON.stringify('production'),
     BABEL_ENV: JSON.stringify('production'),
   },
+});
+
+const optimizeCSSAssetsPlugin = new OptimizeCSSAssetsPlugin({
+  assetNameRegExp: /\.css$/g,
+  cssProcessorPluginOptions: {
+    preset: [
+      'default',
+      {
+        discardComments: {
+          removeAll: true,
+        },
+      },
+    ],
+  },
+  canPrint: true,
+});
+
+const miniCssExtractPlugin = new MiniCssExtractPlugin({
+  filename: '[name].css',
 });
 
 module.exports = {
@@ -45,7 +66,7 @@ module.exports = {
       {
         test: /\.(sa|sc|c)ss$/,
         use: [{
-          loader: 'style-loader',
+          loader: MiniCssExtractPlugin.loader,
         },
         {
           loader: 'css-loader',
@@ -67,13 +88,19 @@ module.exports = {
   plugins: [
     definePlugin,
     htmlPlugin,
+    miniCssExtractPlugin,
   ],
   optimization: {
     usedExports: true,
+    noEmitOnErrors: true,
     splitChunks: {
       chunks: 'all',
       automaticNameDelimiter: '.',
       minSize: 30000,
     },
+    minimize: true,
+    minimizer: [
+      optimizeCSSAssetsPlugin,
+    ],
   },
 };

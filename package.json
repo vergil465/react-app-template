@@ -92,6 +92,8 @@
     "webpack-dev-server": "3.8.0",
     "thunk": "0.0.1",
     "hard-source-webpack-plugin": "0.13.1",
-    "mini-css-extract-plugin": "0.8.0"
+    "mini-css-extract-plugin": "0.8.0",
+    "optimize-css-assets-webpack-plugin": "5.0.3",
+    "terser-webpack-plugin": "2.0.1"
   }
 }
