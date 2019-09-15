@@ -3,7 +3,7 @@ const path = require('path');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 
 const {
-  BundleAnalyzerPlugin
+  BundleAnalyzerPlugin,
 } = require('webpack-bundle-analyzer');
 
 const {
