@@ -3,6 +3,10 @@ const path = require('path');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 
 const {
+  BundleAnalyzerPlugin
+} = require('webpack-bundle-analyzer');
+
+const {
   DefinePlugin,
 } = require('webpack');
 
@@ -29,6 +33,11 @@ const definePlugin = new DefinePlugin({
     NODE_ENV: JSON.stringify(mode),
     BABEL_ENV: JSON.stringify(mode),
   },
+});
+
+const bundleAnalyzerPlugin = new BundleAnalyzerPlugin({
+  analyzerPort: 8888,
+  openAnalyzer: false,
 });
 
 process.traceDeprecation = true;
@@ -86,6 +95,7 @@ module.exports = {
     hardSourceWebpackPlugin,
     htmlPlugin,
     definePlugin,
+    bundleAnalyzerPlugin,
   ],
   optimization: {
     usedExports: true,

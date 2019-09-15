@@ -3,6 +3,7 @@ const { DefinePlugin } = require('webpack');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const htmlPlugin = new HtmlWebPackPlugin({
   minify: {
@@ -11,7 +12,6 @@ const htmlPlugin = new HtmlWebPackPlugin({
   template: './public/index.html',
   filename: './index.html',
 });
-
 
 const definePlugin = new DefinePlugin({
   'process.env': {
@@ -39,6 +39,20 @@ const miniCssExtractPlugin = new MiniCssExtractPlugin({
   filename: '[name].css',
 });
 
+const terserPlugin = new TerserPlugin({
+  parallel: true,
+  sourceMap: false,
+  terserOptions: {
+    mangle: true,
+    toplevel: false,
+    ie8: true,
+    keep_fnames: false,
+    output: {
+      comments: false,
+    },
+  },
+});
+
 module.exports = {
   entry: [
     '@babel/polyfill',
@@ -56,7 +70,6 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
-          options: { presets: ['@babel/preset-env'] },
         },
       },
       {
@@ -100,6 +113,7 @@ module.exports = {
     },
     minimize: true,
     minimizer: [
+      terserPlugin,
       optimizeCSSAssetsPlugin,
     ],
   },

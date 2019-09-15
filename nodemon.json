@@ -1,0 +1,7 @@
+{
+    "watch": [
+      "webpack.config.dev.js",
+      ".babelrc"
+    ]
+  }
+  
