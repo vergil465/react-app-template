@@ -42,7 +42,7 @@
     "react-dom": "16.9.0",
     "react-redux": "7.1.1",
     "react-router-dom": "5.0.1",
-    "react-simple-responsive-framework": "1.6.9",
+    "react-simple-responsive-framework": "1.7.0",
     "emotion": "10.0.17",
     "redux": "4.0.4",
     "redux-promise-middleware": "6.1.1",
