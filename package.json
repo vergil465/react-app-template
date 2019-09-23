@@ -9,7 +9,7 @@
   "main": "index.js",
   "scripts": {
     "start-dev": "nodemon --exec \"webpack-dev-server -d --progress --colors --config webpack.config.dev.js\"",
-    "start": "npm run build && node server.js",
+    "start": "node server.js",
     "build": "webpack -p --config webpack.config.prod.js --hide-modules",
     "transpile": "babel src -d dist --copy-files",
     "test": "jest",
