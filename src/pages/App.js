@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import '../resources/scss/base.scss';
 import { Layout } from 'react-simple-responsive-framework';
 
-export default class App extends Component {
+class App extends Component {
   render() {
+    const { children } = this.props;
     return (
       <Layout>
-        {this.props.children}
+        {children}
       </Layout>
     );
   }
 }
+
+App.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+export default App;
