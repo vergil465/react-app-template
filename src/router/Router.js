@@ -13,7 +13,7 @@ export default () => (
         exact
         path="/"
         layout={App}
-        component={(props) => (<Home {...props} />)}
+        component={props => (<Home {...props} />)}
       />
     </div>
   </Router>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Heading } from 'react-simple-responsive-framework';
 
-export class Home extends Component {
+export default class Home extends Component {
   render() {
     return (
       <Container>
@@ -13,5 +13,3 @@ export class Home extends Component {
     );
   }
 }
-
-export default Home;
