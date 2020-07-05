@@ -26,10 +26,9 @@
     }
   },
   "jest": {
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer",
-      "jest-emotion"
-    ],
+    "transform": {
+      "^.+\\.[j]sx?$": "babel-jest"
+    },
     "setupFilesAfterEnv": [
       "<rootDir>src/setupTests.js"
     ],
