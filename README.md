@@ -1,4 +1,4 @@
-# React PublicLayout Template
+# React App Template
 
 ## Requirements
 
