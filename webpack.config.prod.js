@@ -57,10 +57,10 @@ module.exports = {
   entry: [
     '@babel/polyfill',
     path.join(__dirname, './src/index.js'),
-    'svgxuse',
   ],
   output: {
     path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
     filename: 'pro.[name].js',
   },
   module: {
@@ -73,23 +73,38 @@ module.exports = {
         },
       },
       {
-        test: /\.(png|woff|woff2|eot|ttf|svg|jpg)$/,
+        test: /\.(png|woff|woff2|eot|ttf|jpg)$/,
         loader: 'file-loader',
       },
       {
+        test: /\.svg?$/,
+        issuer: {
+          test: /\.(sa|sc|c)ss$/,
+        },
+        loader: 'file-loader',
+      },
+      {
+        test: /\.svg?$/,
+        issuer: {
+          test: /\.js?$/,
+        },
+        use: ['@svgr/webpack'],
+      },
+      {
         test: /\.(sa|sc|c)ss$/,
-        use: [{
-          loader: MiniCssExtractPlugin.loader,
-        },
-        {
-          loader: 'css-loader',
-          options: {
-            modules: false,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
           },
-        },
-        {
-          loader: 'sass-loader',
-        },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: false,
+            },
+          },
+          {
+            loader: 'sass-loader',
+          },
         ],
       },
     ],

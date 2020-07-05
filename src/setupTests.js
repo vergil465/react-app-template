@@ -1,4 +1,7 @@
-import { configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+/* eslint-disable import/no-extraneous-dependencies */
+import "@testing-library/jest-dom";
+import fetchMock from "jest-fetch-mock";
 
-configure({ adapter: new Adapter() });
+process.env.WP_API_PATH = "/wp-json/";
+
+fetchMock.enableMocks();

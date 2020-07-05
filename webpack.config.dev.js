@@ -1,24 +1,26 @@
-const HtmlWebPackPlugin = require('html-webpack-plugin');
-const path = require('path');
-const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
+const HtmlWebPackPlugin = require("html-webpack-plugin");
+const path = require("path");
+const HardSourceWebpackPlugin = require("hard-source-webpack-plugin");
+const dotenv = require("dotenv");
 
-const {
-  BundleAnalyzerPlugin,
-} = require('webpack-bundle-analyzer');
+dotenv.config({
+  path: "./.env.development",
+  safe: true,
+});
 
-const {
-  DefinePlugin,
-} = require('webpack');
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
-const IS_DEV = process.env.NODE_ENV === 'development';
-const mode = IS_DEV ? 'development' : 'production';
+const { DefinePlugin } = require("webpack");
+
+const IS_DEV = process.env.NODE_ENV === "development";
+const mode = IS_DEV ? "development" : "production";
 
 const htmlPlugin = new HtmlWebPackPlugin({
   minify: {
     collapseWhitespace: true,
   },
-  template: './public/index.html',
-  filename: './index.html',
+  template: "./public/index.html",
+  filename: "./index.html",
 });
 
 const hardSourceWebpackPlugin = new HardSourceWebpackPlugin({
@@ -29,7 +31,7 @@ const hardSourceWebpackPlugin = new HardSourceWebpackPlugin({
 });
 
 const definePlugin = new DefinePlugin({
-  'process.env': {
+  "process.env": {
     NODE_ENV: JSON.stringify(mode),
     BABEL_ENV: JSON.stringify(mode),
   },
@@ -43,14 +45,11 @@ const bundleAnalyzerPlugin = new BundleAnalyzerPlugin({
 process.traceDeprecation = true;
 
 module.exports = {
-  entry: [
-    '@babel/polyfill',
-    path.join(__dirname, './src/index.js'),
-    'svgxuse',
-  ],
+  entry: ["@babel/polyfill", path.join(__dirname, "./src/index.js")],
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'app.js',
+    path: path.resolve(__dirname, "dist"),
+    publicPath: "/",
+    filename: "app.js",
   },
   module: {
     rules: [
@@ -58,34 +57,49 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader',
-          options: { presets: ['@babel/preset-env'] },
+          loader: "babel-loader",
+          options: { presets: ["@babel/preset-env"] },
         },
       },
       {
-        test: /\.(png|woff|woff2|eot|ttf|svg|jpg)$/,
-        loader: 'file-loader',
+        test: /\.(png|otf|woff|woff2|eot|ttf|jpg)$/,
+        loader: "file-loader",
+      },
+      {
+        test: /\.svg?$/,
+        issuer: {
+          test: /\.(sa|sc|c)ss$/,
+        },
+        loader: "file-loader",
+      },
+      {
+        test: /\.svg?$/,
+        issuer: {
+          test: /\.js?$/,
+        },
+        use: ["@svgr/webpack"],
       },
       {
         test: /\.(sa|sc|c)ss$/,
-        use: [{
-          loader: 'style-loader',
-        },
-        {
-          loader: 'css-loader',
-          options: {
-            modules: false,
+        use: [
+          {
+            loader: "style-loader",
           },
-        },
-        {
-          loader: 'sass-loader',
-        },
+          {
+            loader: "css-loader",
+            options: {
+              modules: false,
+            },
+          },
+          {
+            loader: "sass-loader",
+          },
         ],
       },
     ],
   },
   devServer: {
-    port: 3000,
+    port: process.env.PORT,
     open: true,
     hot: true,
     compress: true,
@@ -100,7 +114,7 @@ module.exports = {
   optimization: {
     usedExports: true,
     splitChunks: {
-      chunks: 'all',
+      chunks: "all",
     },
     noEmitOnErrors: true,
   },
